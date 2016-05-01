@@ -1,6 +1,10 @@
 __author__ = 'mbardoe'
 import random
 import cPickle as pickle
+import Region
+import Candidate
+import VotingProfile
+
 
 class Voter(object):
     ID_Num=1
@@ -39,6 +43,37 @@ class Voter(object):
 
     def likelyVoter(self):
         return self.VotingProb>.7
+
+    def __str__(self):
+        val = "Region: " + str(self.region.name) + "\n"
+        val += "ID: " + str(self.ID) + "\n"
+        val += "age: " + str(self.age) + "\n"
+        val += "Voting Probability: " + str(self.VotingProb) + "\n"
+        val += "Voting Preferences: " + str(self.VotingPref) + "\n"
+        val += "Spectrum: " + str(self.Spectrum) + "\n"
+        val += "Immigrant: " + str(self.Immigrant) + "\n"
+        return val
+
+
+def main():
+    c = Candidate.Candidate("Trump", .7)
+    d = Candidate.Candidate("Hilary", .4)
+    ##vp=VotingProfile.VotingProfile([c,d], [.3,.7], [.1, .2], [.4,.6],[.1, .1], .2)
+    ##print vp.__reNorm__([1,2,3])
+    reg = Region.Region("Region 1", 30, [.3, .3, .2, .1, .1], 45.0, 8.0, .5, .05,
+                        [c, d], [.3, .7], [.1, .1], [.4, .6], [.1, .1],
+                        .2, [.8, .2])
+    voter = Voter(reg, "white", 45, .8, .5, .6, [.3, .7], .8, False)
+    print voter
+    print (str(voter.vote()))
+    print (str(voter.likelyVoter()))
+
+
+if __name__ == '__main__':
+    main()
+
+
+
 
 
 

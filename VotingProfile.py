@@ -2,54 +2,71 @@ import random
 import Candidate
 import cPickle as pickle
 
-class VotingProfile(object):
 
+class VotingProfile(object):
     def __init__(self, candidates, votingPrefAvg, votingPrefStdDev, SpectrumAvg, SpectrumStdDev,
                  ImmigrantProb, ImmigrantPref):
-        if len(candidates)!=len(votingPrefAvg) or len(votingPrefAvg)!=len(votingPrefStdDev):
+        if len(candidates) != len(votingPrefAvg) or len(votingPrefAvg) != len(votingPrefStdDev):
             raise SyntaxError("lengths don't match")
-        self.candidates=candidates
+        self.candidates = candidates
         self.votingPrefAvg = votingPrefAvg
         self.votingPrefStdDev = votingPrefStdDev
-        self.spectrumAvg=SpectrumAvg
-        self.spectrumStdDev=SpectrumStdDev
+        self.spectrumAvg = SpectrumAvg
+        self.spectrumStdDev = SpectrumStdDev
+        self.immigrantProb = ImmigrantProb
+        self.immigrantPref = ImmigrantPref
 
     def createIndividualPref(self):
-        indPref=[]
+        """This function creates individual voting preferences but does not apply
+        the immigrant changes"""
+        indPref = []
         ## determine individual preferences based on region
         for i in range(len(self.candidates)):
-            indPref.append(min(max(random.gauss(self.votingPrefAvg[i],self.votingPrefStdDev[i]),0),1))
-        indPref= self.__reNorm__(indPref)
-        self.individualPreferences=indPref
+            indPref.append(min(max(random.gauss(self.votingPrefAvg[i], self.votingPrefStdDev[i]), 0), 1))
+        indPref = self.__reNorm__(indPref)
+        self.individualPreferences = indPref
 
         ## determine the spectrum Value of this voter
         for candidate in self.candidates:
-            voterSpectrum=self.__cap__(random.gauss(self.spectrumAvg, self.spectrumStdDev))
+            voterSpectrum = self.__cap__(random.gauss(self.spectrumAvg, self.spectrumStdDev))
         for i in range(len(self.candidates)):
-            indPref[i]=indPref[i]/abs(candidate[i].spectrumValue-voterSpectrum)
-        indPref= self.__reNorm__(indPref)
-        self.individualPreferences=indPref
+            indPref[i] = indPref[i] / abs(candidate[i].spectrumValue - voterSpectrum)
+        indPref = self.__reNorm__(indPref)
+        self.individualPreferences = indPref
+
         return indPref
 
+
+    def modifyPrefForImmigrants(self):
+        """Apply the immigrant feelings"""
+        indPref = self.individualPreferences
+        for i in range(len(self.candidates)):
+            indPref[i] = indPref[i] * self.immigrantPref[i]
+        indPref = self.__reNorm__(indPref)
+        self.individualPreferences = indPref
+        return indPref
+
+
     def __reNorm__(self, mylist):
-        mySum=float(sum(mylist))
+        """Helper function to make a list of weights add to 1.0"""
+        mySum = float(sum(mylist))
         for i in range(len(mylist)):
-            mylist[i]/=mySum
+            mylist[i] /= mySum
         return mylist
 
-    def  __cap__(self, num):
-        return min(max(num,0.0),1.0)
 
+    def __cap__(self, num, myMin=0.0, myMax=1.0):
+        """Keep values between 0 and 1"""
+        return min(max(num, myMin), myMax)
 
 
 def main():
-    c=Candidate.Candidate("Trump", .7)
-    d=Candidate.Candidate("Hilary", .4)
+    c = Candidate.Candidate("Trump", .7)
+    d = Candidate.Candidate("Hilary", .4)
+
+    vp = VotingProfile([c, d], [.3, .7], [.1, .2], [.4, .6], [.1, .1], .2, [.2, .8])
+    print vp.__reNorm__([1, 2, 3])
 
 
-    vp=VotingProfile([c,d], [.3,.7], [.1, .2], [.4,.6],[.1, .1], .2)
-    print vp.__reNorm__([1,2,3])
-
-
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

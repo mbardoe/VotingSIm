@@ -60,6 +60,10 @@ def main():
 
     vp=VotingProfile.VotingProfile([c,d], [.3,.7], [.1, .2], [.4,.6],[.1, .1], .2)
     ##print vp.__reNorm__([1,2,3])
+    reg = Region("Region 1", 30, [.3, .3, .2, .1, .1], 45.0, 8.0, .5, .05,
+                 [c, d], [.3, .7], [.1, .1], [.4, .6], [.1, .1],
+                 .2, [.8, .2])
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
+    main()
