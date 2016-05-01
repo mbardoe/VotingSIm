@@ -26,8 +26,24 @@ def main():
                 'Hispanic': 0.5,
                 'Asian': 0.1,
                 'Other': 0.2}
+    CruzRace = {'white': .6,
+                'African American': 0.1,
+                'Hispanic': 0.6,
+                'Asian': 0.1,
+                'Other': 0.2}
+    KasichRace = {'white': .4,
+                  'African American': 0.2,
+                  'Hispanic': 0.5,
+                  'Asian': 0.3,
+                  'Other': 0.2}
+    BernieRace = {'white': .7,
+                  'African American': 0.2,
+                  'Hispanic': 0.3,
+                  'Asian': 0.7,
+                  'Other': 0.3}
     c = Candidate("Trump", .7, trumpRace)
     d = Candidate("Hilary", .4, HillRace)
+    e = Candidate(Cruz)
     print str(c.myID)+' '+c.name
     print str(d.myID)+' '+d.name
 
