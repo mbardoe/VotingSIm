@@ -48,6 +48,7 @@ class Voter(object):
         val = "Region: " + str(self.region.name) + "\n"
         val += "ID: " + str(self.ID) + "\n"
         val += "age: " + str(self.age) + "\n"
+        val += "race: " + str(self.race) + "\n"
         val += "Voting Probability: " + str(self.VotingProb) + "\n"
         val += "Voting Preferences: " + str(self.VotingPref) + "\n"
         val += "Spectrum: " + str(self.Spectrum) + "\n"
@@ -56,8 +57,18 @@ class Voter(object):
 
 
 def main():
-    c = Candidate.Candidate("Trump", .7)
-    d = Candidate.Candidate("Hilary", .4)
+    trumpRace = {'white': .5,
+                 'African American': 0.01,
+                 'Hispanic': 0.01,
+                 'Asian': 0.1,
+                 'Other': 0.2}
+    HillRace = {'white': .2,
+                'African American': 0.5,
+                'Hispanic': 0.5,
+                'Asian': 0.1,
+                'Other': 0.2}
+    c = Candidate.Candidate("Trump", .7, trumpRace)
+    d = Candidate.Candidate("Hilary", .4, HillRace)
     ##vp=VotingProfile.VotingProfile([c,d], [.3,.7], [.1, .2], [.4,.6],[.1, .1], .2)
     ##print vp.__reNorm__([1,2,3])
     reg = Region.Region("Region 1", 30, [.3, .3, .2, .1, .1], 45.0, 8.0, .5, .05,

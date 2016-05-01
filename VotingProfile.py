@@ -26,11 +26,15 @@ class VotingProfile(object):
         indPref = self.__reNorm__(indPref)
         self.individualPreferences = indPref
 
-        ## determine the spectrum Value of this voter
-        for candidate in self.candidates:
-            voterSpectrum = self.__cap__(random.gauss(self.spectrumAvg, self.spectrumStdDev))
+    def voterSpectrum(self):
+        """ determine the spectrum Value of this voter"""
+        return self.__cap__(random.gauss(self.spectrumAvg, self.spectrumStdDev))
+
+    def modifyPrefForSpectrum(self, voterSpectrum):
+        """Apply the spectrum feelings"""
+        indPref = self.individualPreferences
         for i in range(len(self.candidates)):
-            indPref[i] = indPref[i] / abs(candidate[i].spectrumValue - voterSpectrum)
+            indPref[i] = indPref[i] / abs(self.candidates[i].spectrumValue - voterSpectrum)
         indPref = self.__reNorm__(indPref)
         self.individualPreferences = indPref
 
@@ -46,6 +50,13 @@ class VotingProfile(object):
         self.individualPreferences = indPref
         return indPref
 
+    def modifyPrefForRace(self, race):
+        indPref = self.individualPreferences
+        for i in range(len(self.candidates)):
+            indPref[i] += self.candidates[i].racePref[race]
+        indPref = self.__reNorm__(indPref)
+        self.individualPreferences = indPref
+        return indPref
 
     def __reNorm__(self, mylist):
         """Helper function to make a list of weights add to 1.0"""
@@ -61,10 +72,20 @@ class VotingProfile(object):
 
 
 def main():
-    c = Candidate.Candidate("Trump", .7)
-    d = Candidate.Candidate("Hilary", .4)
+    trumpRace = {'white': .5,
+                 'African American': 0.01,
+                 'Hispanic': 0.01,
+                 'Asian': 0.1,
+                 'Other': 0.2}
+    HillRace = {'white': .2,
+                'African American': 0.5,
+                'Hispanic': 0.5,
+                'Asian': 0.1,
+                'Other': 0.2}
+    c = Candidate.Candidate("Trump", .7, trumpRace)
+    d = Candidate.Candidate("Hilary", .4, HillRace)
 
-    vp = VotingProfile([c, d], [.3, .7], [.1, .2], [.4, .6], [.1, .1], .2, [.2, .8])
+    vp = VotingProfile([c, d], [.3, .7], [.1, .2], .4, .1, .2, [.2, .8])
     print vp.__reNorm__([1, 2, 3])
 
 
