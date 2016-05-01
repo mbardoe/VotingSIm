@@ -2,6 +2,7 @@ __author__ = 'mbardoe'
 import random
 import VotingProfile
 import cPickle as pickle
+import Ballot, Election
 import Candidate
 import Voter
 
@@ -42,7 +43,7 @@ class Region(object):
         immigrant = (random.random() < self.ImmigrantProb)
         votingPref = self.VotingPreference.createIndividualPref()
         votingPref = self.VotingPreference.modifyPrefForSpectrum(spectrum)
-        votingPref.self.VotingPreference.modifyPrefForRace(race)
+        votingPref = self.VotingPreference.modifyPrefForRace(race)
         if immigrant:
             votingPref = self.VotingPreference.modifyPrefForImmigrants()
 
@@ -63,6 +64,23 @@ class Region(object):
         """ Add n voters to the population"""
         for i in range(n):
             self.population.append(self.create_Voter())
+        ## make sure that voters stay
+        self.__save__()
+
+    def populationSize(self):
+        return len(self.population)
+
+    def createElection(self):
+        e = Election.Election(self.candidates)
+        for person in self.population:
+            ## determine if they want to vote
+            if random.random() < person.VotingProb:
+                ## they are voting
+                ballot = Ballot.Ballot(
+                    self.candidates[person.vote()], self, person.age, person.race, person.Immigrant
+                )
+                e.addBallot(ballot)
+        return e
 
     def __reNorm__(self, mylist):
         mySum=float(sum(mylist))
@@ -82,33 +100,29 @@ class Region(object):
             race -= testProb
             current += 1
             testProb = self.raceBreakdown[current]
-        races = ['White', 'African-American', 'Hispanic', 'Asian', 'Other']
+        races = ['White', 'African American', 'Hispanic', 'Asian', 'Other']
         return races[current]
+
+    def __save__(self):
+        pickle.dump(self, open(self.name + ".rgn", "wb"))
 
 
 def main():
-    trumpRace = {'white': .5,
-                 'African American': 0.01,
-                 'Hispanic': 0.01,
-                 'Asian': 0.1,
-                 'Other': 0.2}
-    HillRace = {'white': .2,
-                'African American': 0.5,
-                'Hispanic': 0.5,
-                'Asian': 0.1,
-                'Other': 0.2}
-    c = Candidate.Candidate("Trump", .7, trumpRace)
-    d = Candidate.Candidate("Hilary", .4, HillRace)
 
     ##vp=VotingProfile.VotingProfile([c,d], [.3,.7], [.1, .2], [.4,.6],[.1, .1], .2)
     ##print vp.__reNorm__([1,2,3])
-    reg = Region("Region 1", 30, [.3, .3, .2, .1, .1], 45.0, 8.0, .5, .05,
-                 [c, d], [.3, .7], [.1, .1], .4, .1,
-                 .2, [.8, .2])
+    reg = pickle.load(open('Region_1.rgn', "rb"))
 
-    voter = reg.create_Voter()
-    print voter
-    print reg.candidates[voter.vote()]
+    # voter = reg.create_Voter()
+    # print voter
+    # print reg.candidates[voter.vote()]
+    reg.create_Population(3000)
+    e = reg.createElection()
+    #print (e)
+    e.candidateCount()
+    print('\n\n')
+    e.raceByCandidate()
+    print (reg.populationSize())
 
 
 if __name__ == '__main__':
