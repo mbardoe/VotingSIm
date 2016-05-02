@@ -123,6 +123,8 @@ def main():
     print('\n\n')
     e.raceByCandidate()
     print (reg.populationSize())
+    print('\n\n')
+    e.raceByAge()
 
 
 if __name__ == '__main__':

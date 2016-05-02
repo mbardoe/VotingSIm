@@ -12,12 +12,14 @@ class Election(object):
 
     def candidateCount(self):
         results = {}
+        numVotes = float(len(self.ballots))
         for candidate in self.candidates:
             results[candidate.name] = 0
         for ballot in self.ballots:
             results[ballot.candidate.name] += 1
         for result in results.keys():
-            print(result + ":  " + str(results[result]))
+            print(result + ":  " + str(results[result]) + "  " + str(results[result] / numVotes))
+        print numVotes
         return results
 
 
@@ -41,7 +43,7 @@ class Election(object):
             newAge = (ballot.age / 10 + 1) * 10
             results[newAge] += 1
         for result in results.keys():
-            print(result + "\'s:  " + str(results[result]))
+            print(str(result) + "\'s:  " + str(results[result]))
         return results
 
     def ballotsForCandidate(self, candidate):
@@ -56,6 +58,12 @@ class Election(object):
             print (candidate.name + "\n")
             theirBallots = self.ballotsForCandidate(candidate)
             self.raceCount(theirBallots)
+
+    def raceByAge(self):
+        for candidate in self.candidates:
+            print (candidate.name + "\n")
+            theirBallots = self.ballotsForCandidate(candidate)
+            self.ageCount(theirBallots)
 
     def __str__(self):
         results = self.candidateCount()

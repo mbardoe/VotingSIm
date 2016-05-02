@@ -53,7 +53,7 @@ class VotingProfile(object):
     def modifyPrefForRace(self, race):
         indPref = self.individualPreferences
         for i in range(len(self.candidates)):
-            indPref[i] += self.candidates[i].racePref[race]
+            indPref[i] *= self.candidates[i].racePref[race]
         indPref = self.__reNorm__(indPref)
         self.individualPreferences = indPref
         return indPref

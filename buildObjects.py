@@ -10,30 +10,30 @@ class buildObjects(object):
 
 
 def main():
-    trumpRace = {'White': .5,
+    trumpRace = {'White': .3,
                  'African American': 0.01,
                  'Hispanic': 0.01,
                  'Asian': 0.1,
                  'Other': 0.2}
     HillRace = {'White': .2,
-                'African American': 0.5,
-                'Hispanic': 0.5,
+                'African American': 0.35,
+                'Hispanic': 0.35,
                 'Asian': 0.1,
                 'Other': 0.2}
-    CruzRace = {'White': .6,
+    CruzRace = {'White': .3,
                 'African American': 0.1,
-                'Hispanic': 0.6,
+                'Hispanic': 0.3,
                 'Asian': 0.1,
                 'Other': 0.2}
-    KasichRace = {'White': .4,
-                  'African American': 0.2,
-                  'Hispanic': 0.5,
-                  'Asian': 0.3,
+    KasichRace = {'White': .3,
+                  'African American': 0.1,
+                  'Hispanic': 0.1,
+                  'Asian': 0.1,
                   'Other': 0.2}
-    BernieRace = {'White': .7,
+    BernieRace = {'White': .3,
                   'African American': 0.2,
                   'Hispanic': 0.3,
-                  'Asian': 0.7,
+                  'Asian': 0.3,
                   'Other': 0.3}
     c = Candidate.Candidate("Trump", .7, trumpRace)
     d = Candidate.Candidate("Hillary", .4, HillRace)
@@ -48,12 +48,12 @@ def main():
     r1 = Region.Region("Region_1",
                        [.4, .2, .1, .1, .05],  ## race breakdown
                        50,  ## avg Age
-                       3,  ## variation in age
+                       10,  ## variation in age
                        .6,  ## prob voting
                        .1,  ## variation in voting
                        candidates,  ## candidates
-                       [.5, .5, .4, .1, .3],  ## candidate pref
-                       [.1, .1, .2, .01, .05],  ## variation in candidate pref
+                       [1.8, 1.8, .4, .1, .3],  ## candidate pref
+                       [.4, .4, .2, .01, .07],  ## variation in candidate pref
                        .6,  # spectrum
                        .07,  # variation in spectrum
                        .1,  # immigrant prob
