@@ -17,9 +17,9 @@ class Election(object):
             results[candidate.name] = 0
         for ballot in self.ballots:
             results[ballot.candidate.name] += 1
-        for result in results.keys():
-            print(result + ":  " + str(results[result]) + "  " + str(results[result] / numVotes))
-        print numVotes
+            #for result in results.keys():
+            #print(result + ":  " + str(results[result]) + "  " + str(results[result] / numVotes))
+        #print numVotes
         return results
 
 
@@ -30,8 +30,8 @@ class Election(object):
             results[race] = 0
         for ballot in ballots:
             results[ballot.race] += 1
-        for result in results.keys():
-            print(result + ":  " + str(results[result]))
+            #for result in results.keys():
+            # print(result + ":  " + str(results[result]))
         return results
 
     def ageCount(self, ballots):
@@ -42,8 +42,8 @@ class Election(object):
         for ballot in ballots:
             newAge = (ballot.age / 10 + 1) * 10
             results[newAge] += 1
-        for result in results.keys():
-            print(str(result) + "\'s:  " + str(results[result]))
+            #for result in results.keys():
+            #print(str(result) + "\'s:  " + str(results[result]))
         return results
 
     def ballotsForCandidate(self, candidate):
@@ -55,13 +55,13 @@ class Election(object):
 
     def raceByCandidate(self):
         for candidate in self.candidates:
-            print (candidate.name + "\n")
+            #print (candidate.name + "\n")
             theirBallots = self.ballotsForCandidate(candidate)
             self.raceCount(theirBallots)
 
     def raceByAge(self):
         for candidate in self.candidates:
-            print (candidate.name + "\n")
+            #print (candidate.name + "\n")
             theirBallots = self.ballotsForCandidate(candidate)
             self.ageCount(theirBallots)
 
@@ -72,4 +72,10 @@ class Election(object):
             output += candidate + ":  " + str(results[candidate]) + "\n"
         return output
 
-
+    def csvPrint(self):
+        results = self.candidateCount()
+        output = []
+        for candidate in results.keys():
+            output.append([candidate, str(results[candidate])])
+            #output.append(str(results[candidate]))
+        return output

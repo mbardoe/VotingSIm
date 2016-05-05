@@ -56,11 +56,11 @@ def main():
                        [.4, .4, .2, .01, .07],  ## variation in candidate pref
                        .6,  # spectrum
                        .07,  # variation in spectrum
-                       .1,  # immigrant prob
+                       .03,  # immigrant prob
                        [.05, .4, .4, .2, .2])  ## immigrant pref)
 
     r2 = Region.Region("Region_2",
-                       [.3, .3, .2, .1, .1],  ## race breakdown
+                       [.45, .3, .05, .1, .1],  ## race breakdown
                        40,  ## avg Age
                        7,  ## variation in age
                        .5,  ## prob voting
@@ -70,32 +70,32 @@ def main():
                        [.1, .1, .1, .1, .2],  ## variation in candidate pref
                        .4,  # spectrum
                        .15,  # variation in spectrum
-                       .2,  # immigrant prob
+                       .05,  # immigrant prob
                        [.05, .4, .4, .2, .2])  ## immigrant pref)
     r3 = Region.Region("Region_3",
-                       [.4, .1, .3, .4, .1],  ## race breakdown
+                       [.7, .1, .1, .07, .03],  ## race breakdown
                        45,  ## avg Age
-                       3,  ## variation in age
+                       6,  ## variation in age
                        .54,  ## prob voting
                        .1,  ## variation in voting
                        candidates,  ## candidates
-                       [.2, .4, .5, .2, .4],  ## candidate pref
-                       [.05, .1, .1, .05, .1],  ## variation in candidate pref
-                       .5,  # spectrum
+                       [1.2, .4, .4, .2, .5],  ## candidate pref
+                       [.3, .1, .1, .05, .2],  ## variation in candidate pref
+                       .8,  # spectrum
                        .2,  # variation in spectrum
-                       .3,  # immigrant prob
+                       .05,  # immigrant prob
                        [.05, .4, .4, .2, .2])  ## immigrant pref)
     r4 = Region.Region("Region_4",
-                       [.1, .6, .1, .2, .3],  ## race breakdown
-                       4,  ## avg Age
-                       3,  ## variation in age
+                       [.1, .6, .1, .15, .05],  ## race breakdown
+                       41,  ## avg Age
+                       6,  ## variation in age
                        .64,  ## prob voting
                        .1,  ## variation in voting
                        candidates,  ## candidates
                        [.1, .4, .3, .2, .4],  ## candidate pref
                        [.03, .1, .1, .05, .1],  ## variation in candidate pref
-                       .5,  # spectrum
-                       .2,  # variation in spectrum
+                       .35,  # spectrum
+                       .05,  # variation in spectrum
                        .1,  # immigrant prob
                        [.05, .4, .4, .2, .2])  ## immigrant pref)
     regions = [r1, r2, r3, r4]

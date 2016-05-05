@@ -77,7 +77,7 @@ class Region(object):
             if random.random() < person.VotingProb:
                 ## they are voting
                 ballot = Ballot.Ballot(
-                    self.candidates[person.vote()], self, person.age, person.race, person.Immigrant
+                    self.candidates[person.vote()], self, person.age, person.race, person.Immigrant, person.VotingProb
                 )
                 e.addBallot(ballot)
         return e
@@ -106,17 +106,20 @@ class Region(object):
     def __save__(self):
         pickle.dump(self, open(self.name + ".rgn", "wb"))
 
+    def __str__(self):
+        return self.name
+
 
 def main():
 
     ##vp=VotingProfile.VotingProfile([c,d], [.3,.7], [.1, .2], [.4,.6],[.1, .1], .2)
     ##print vp.__reNorm__([1,2,3])
-    reg = pickle.load(open('Region_1.rgn', "rb"))
+    reg = pickle.load(open('Region_4.rgn', "rb"))
 
     # voter = reg.create_Voter()
     # print voter
     # print reg.candidates[voter.vote()]
-    reg.create_Population(3000)
+    #reg.create_Population(40000)
     e = reg.createElection()
     #print (e)
     e.candidateCount()
